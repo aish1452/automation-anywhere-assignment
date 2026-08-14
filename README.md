@@ -1,41 +1,45 @@
-Automation Anywhere Automation Assignment
+# Automation Anywhere Automation Assignment
 
-Overview
+## Overview
 
-Playwright + TypeScript automation for Automation Anywhere Community Cloud using the Page Object Model (POM).
+This project contains end-to-end UI automation for **Automation Anywhere Community Cloud** using **Playwright**, **TypeScript**, and the **Page Object Model (POM)**.
 
-Use Cases
+### Use Cases
 
-UC1: Task Bot with Message Box
+- **UC1:** Task Bot with Message Box
+- **UC2:** Form with Rules Builder
 
-UC2: Form with Rules Builder
+---
 
-Tech Stack
+## Tech Stack
 
-TypeScript
+- **Language:** TypeScript
+- **Framework:** Playwright
+- **Runtime:** Node.js
+- **Package Manager:** npm
+- **Browser:** Chromium
+- **Design Pattern:** Page Object Model (POM)
+- **Environment Management:** dotenv
 
-Playwright
+---
 
-Node.js
+## Application Under Test
 
-npm
-
-Chromium
-
-dotenv
-
-Application
-
-Automation Anywhere Community Cloud:
+### Automation Anywhere Community Cloud
 
 https://community.cloud.automationanywhere.digital/
 
-Automation Workspace:
+### Automation Workspace
 
 https://community.cloud.automationanywhere.digital/#/bots/repository/private/folders/33103175
 
-Project Structure
+> Form Designer URLs contain a generated Form ID and may change between runs.
 
+---
+
+## Project Structure
+
+```text
 automation-anywhere-assignment/
 │
 ├── pages/
@@ -53,178 +57,291 @@ automation-anywhere-assignment/
 ├── playwright.config.ts
 ├── package.json
 ├── package-lock.json
+├── .gitignore
 └── README.md
+```
 
-Prerequisites
+---
+
+## Prerequisites
 
 Install:
 
-Node.js
+- [Node.js](https://nodejs.org/)
+- npm
+- An Automation Anywhere Community Edition account
 
-npm
+Verify the installation:
 
-Verify:
-
+```bash
 node --version
 npm --version
+```
 
-Setup
+---
 
-Extract or clone the project and open the project directory:
+## Setup
 
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/aish1452/automation-anywhere-assignment.git
 cd automation-anywhere-assignment
+```
 
-Install dependencies:
+### 2. Install dependencies
 
+```bash
 npm install
+```
 
-Create a .env file in the project root:
+### 3. Configure environment variables
 
+Create a `.env` file in the project root.
+
+```env
 BASE_URL=https://community.cloud.automationanywhere.digital
-AA_EMAIL=your- aishwaryaganeshan33@gmail.com
-AA_PASSWORD= A1i2s3h4#
+AA_EMAIL=aishwaryaganeshan33@gmail.com
+AA_PASSWORD=A1i2s3h4#
+```
 
-Use valid Automation Anywhere Community Edition credentials.
+---
 
-Do not commit or submit real credentials.
-
-Authentication
+## Authentication
 
 Authentication is handled by:
 
+```text
 tests/auth.setup.ts
+```
 
-The setup test logs in and stores the authenticated browser state in:
+The setup test logs in to Automation Anywhere using the credentials configured in `.env`.
 
-auth/user.json
+The authenticated browser state is then reused by the Chromium project for the use-case tests.
 
-The dependent Chromium tests reuse this authenticated session.
+---
 
-UC1 - Task Bot with Message Box
+# UC1 - Task Bot with Message Box
 
-Workflow
+## Objective
 
-Log in
+Automate the Task Bot workflow and add/configure a Message Box action.
 
-Navigate to Automation
+## Workflow
 
-Open Create
+1. Log in to Automation Anywhere.
+2. Navigate to **Automation**.
+3. Open the **Create** menu.
+4. Select **Task Bot**.
+5. Enter the required bot details.
+6. Create and open the Bot Designer.
+7. Search for **Message Box**.
+8. Add the Message Box action.
+9. Configure the Message Box title and message.
+10. Save the bot.
+11. Verify the configured fields and workflow.
 
-Select Task Bot
+## Test File
 
-Create the Task Bot
-
-Open Bot Designer
-
-Search for Message Box
-
-Add Message Box
-
-Configure Message Box
-
-Save
-
-Verify the configuration
-
-Test File
-
+```text
 tests/usecase1-message-box.spec.ts
+```
 
-Run UC1
+## Run UC1
 
+```bash
 npx playwright test tests/usecase1-message-box.spec.ts --project=chromium --headed
+```
 
-UC2 - Form with Rules Builder
+---
 
-Workflow
+# UC2 - Form with Rules Builder
 
-Log in
+## Objective
 
-Navigate to Automation
+Automate Form creation and interaction with the Automation Anywhere Form Designer and Rules Builder.
 
-Open Create
+## Workflow
 
-Select Form
+1. Log in to Automation Anywhere.
+2. Navigate to **Automation**.
+3. Open the **Create** menu.
+4. Select **Form**.
+5. Enter the Form name and description.
+6. Click **Create & Edit**.
+7. Open the Form Designer.
+8. Add Text Box elements.
+9. Configure the Text Box properties.
+10. Navigate to the Rules tab.
+11. Create and configure rules.
+12. Add required conditions and actions.
+13. Create additional rules using **Add Rule Below**.
+14. Save the Form.
+15. Verify the form and rules configuration.
 
-Enter form name and description
+## Test File
 
-Create & Edit
-
-Open Form Designer
-
-Add Text Box elements
-
-Configure form elements
-
-Configure Rules Builder
-
-Save
-
-Verify the form/rules state
-
-Test File
-
+```text
 tests/usecase2-form.spec.ts
+```
 
-Run UC2
+## Run UC2
 
+```bash
 npx playwright test tests/usecase2-form.spec.ts --project=chromium --headed
+```
 
-The Form Designer URL is generated dynamically and follows:
+### Form Designer URL
 
+The Form Designer URL is generated dynamically and follows this pattern:
+
+```text
 https://community.cloud.automationanywhere.digital/#/bots/repository/private/files/<FORM_ID>/module/attended/form/edit
+```
 
-Run All Tests
+The `<FORM_ID>` is generated by Automation Anywhere and can change between executions.
 
+---
+
+## Page Object Model
+
+The project uses the Page Object Model to separate test scenarios from UI interaction logic.
+
+### LoginPage
+
+Handles:
+
+- Login page interaction
+- Credential entry
+- Authentication
+
+### AutomationPage
+
+Handles:
+
+- Opening the application
+- Navigating to Automation
+- Opening Create menus
+- Creating Task Bots and Forms
+- Bot Designer interactions
+- Form Designer interactions
+- Saving configurations
+
+The test files describe the workflow, while page objects contain the selectors and browser actions.
+
+---
+
+## Running the Tests
+
+### Run all tests
+
+```bash
+npx playwright test
+```
+
+### Run Chromium in headed mode
+
+```bash
 npx playwright test --project=chromium --headed
+```
 
-Reports
+### Run a specific test
 
-Open the Playwright HTML report:
+```bash
+npx playwright test tests/<test-file>.spec.ts --project=chromium --headed
+```
 
+---
+
+## Reports and Debugging
+
+### HTML Report
+
+```bash
 npx playwright show-report
+```
 
-Failed tests may also generate:
+### Trace Viewer
 
-Screenshots
+```bash
+npx playwright show-trace <trace-file>.zip
+```
 
-Videos
+Failed tests may generate:
 
-Traces
+- Screenshots
+- Videos
+- Traces
 
-POM Structure
+These artifacts can be used to investigate UI failures.
 
-LoginPage
+---
 
-Handles authentication and login-related UI interactions.
+## Playwright Configuration
 
-AutomationPage
+The main configuration file is:
 
-Handles Automation Anywhere navigation and workflow interactions for both use cases.
+```text
+playwright.config.ts
+```
 
-This keeps test cases focused on the business flow while page objects contain the UI logic.
+It controls:
 
-Notes
+- Test directory
+- Global timeout
+- Expect timeout
+- Number of workers
+- Reporters
+- Base URL
+- Browser projects
+- Authentication state
+- Screenshots
+- Videos
+- Traces
 
-Automation Anywhere Cloud is a dynamic web application, so loading time may vary.
+The tests use a single worker to avoid concurrent interaction with the same Automation Anywhere environment.
 
-For debugging, run tests in headed mode:
+---
 
-npx playwright test --project=chromium --headed
+## Security
 
-Do not include these in the final submission unless specifically required:
+Do not commit sensitive credentials or authentication state.
 
-.env
+The `.gitignore` excludes:
+
+```text
 node_modules/
 test-results/
 playwright-report/
+blob-report/
+playwright/.cache/
+playwright/.auth/
+.env
+auth/
+```
 
-Current Status
+Keep the Automation Anywhere email and password private.
 
-Authentication: Working
+---
 
-UC1: Passing
+## Known Limitation
 
-UC2 Form creation/navigation: Working
+The Automation Anywhere Form Designer uses a dynamic custom Elements palette and layout.
 
-UC2 Form Designer/Text Box automation: Partially automated
+During development, the Text Box interaction behaved differently between manual browser interaction and Playwright execution depending on the runtime UI state.
+
+Form creation and navigation into the Form Designer are implemented. Text Box interaction in UC2 may require additional handling depending on the runtime state of the Form Designer.
+
+---
+
+## Repository
+
+https://github.com/aish1452/automation-anywhere-assignment
+
+---
+
+## Author
+
+**Aishwarya Ganeshan**
+
+Email: aishwaryaganeshan33@gmail.com
