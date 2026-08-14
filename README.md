@@ -81,8 +81,8 @@ npm install
 Create a .env file in the project root:
 
 BASE_URL=https://community.cloud.automationanywhere.digital
-AA_EMAIL=your-email@example.com
-AA_PASSWORD=your-password
+AA_EMAIL=your- aishwaryaganeshan33@gmail.com
+AA_PASSWORD= A1i2s3h4#
 
 Use valid Automation Anywhere Community Edition credentials.
 
